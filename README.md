@@ -1,9 +1,5 @@
-<p align="center">
-  
-</p>
-
 # Track GitHub Actions in HyperDX (Opentelemetry)
-
+[![Build Status](https://github.com/1984vc/hyperdx_github_action/actions/workflows/test.yml/badge.svg)](https://github.com/1984vc/hyperdx_github_action/actions/workflows/test.yml)
 
 Example: 
 
@@ -30,3 +26,6 @@ jobs:
           hyperdx_key: ${{ secrets.HYPERDX_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }} # You don't need to set this in Secrets as it's included by default in workflows
 ```
+
+## What to expect
+![Screenshot](https://github.com/1984vc/hyperdx_github_action/blob/main/.github/assets/capture.png?raw=true)
