@@ -1,0 +1,16 @@
+name: 'Hyperdx Action Tracer'
+description: 'Send Github Actions jobs to Hyperdx for tracing'
+author: 'Mark Percival <mdp@1984.vc>'
+inputs:
+  hyperdx_key: 
+    description: 'Your HyperDX API key'
+    required: true
+  hyperdx_endpoint:
+    description: 'Endpoint to your HyperDX server if it is self hosted'
+    required: false
+  github_token: 
+    description: 'github token, pass in from secrets.GITHUB_TOKEN'
+    required: false
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
