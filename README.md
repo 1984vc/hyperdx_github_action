@@ -12,7 +12,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           npm ci
       - run: |
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-test # wait until build-and-test in done
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: mdp/hyperdx_github_action
         with:
           hyperdx_endpoint: ${{ secrets.HYPERDX_ENDPOINT }}
