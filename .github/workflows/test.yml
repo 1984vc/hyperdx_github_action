@@ -10,7 +10,7 @@ jobs:
   build-and-test: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           yarn install --frozen-lockfile
       - run: |
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-test
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./
         with:
           hyperdx_api_key: ${{ secrets.HYPERDX_API_KEY }}
