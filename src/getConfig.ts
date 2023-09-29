@@ -1,13 +1,16 @@
 import * as core from '@actions/core'
 
 export type ActionConfig = {
-  endpoint?: string
+  endpoint: string
   apiKey: string
   githubToken: string
   githubOwner: string
   githubRepo: string
   githubRunId: string
+  serviceName: string
 }
+
+const DEFAULT_ENDPOINT = 'https://in-otel.hyperdx.io'
 
 const getConfig = (): ActionConfig => {
   const githubToken = process.env.GITHUB_TOKEN || core.getInput('github_token')
@@ -29,12 +32,14 @@ const getConfig = (): ActionConfig => {
   const endpoint =
     process.env.HYPERDX_ENDPOINT ||
     core.getInput('hyperdx_endpoint') ||
-    'https://in-otel.hyperdx.io'
+    DEFAULT_ENDPOINT
   const apiKey = process.env.HYPERDX_API_KEY || core.getInput('hyperdx_api_key')
 
   if (!apiKey) {
     throw new Error('Missing HyperDX credentials')
   }
+
+  const serviceName = process.env.HYPERDX_SERVICE_NAME || core.getInput('hyperdx_service_name') || 'github-actions'
 
   return {
     githubOwner,
@@ -42,6 +47,7 @@ const getConfig = (): ActionConfig => {
     githubToken,
     githubRunId,
     endpoint,
+    serviceName,
     apiKey
   }
 }

@@ -8,28 +8,28 @@ import {SemanticResourceAttributes} from '@opentelemetry/semantic-conventions'
 import {trace, context} from '@opentelemetry/api'
 import {GithubActionRun} from './action'
 
-type TraceOpts = {
-  endpoint?: string
+type TraceConfig = {
+  endpoint: string
+  serviceName: string
+  apiKey: string
 }
 
-const DEFAULT_ENDPOINT = 'https://in-otel.hyperdx.io'
 
 export const traceRun = async (
   jobs: GithubActionRun['jobs'],
-  apiKey: string,
-  opts?: TraceOpts
+  config: TraceConfig
 ): Promise<void> => {
-  const endpoint = opts?.endpoint || DEFAULT_ENDPOINT
+  const endpoint = config.endpoint
   const exporter = new OTLPTraceExporter({
     url: `${endpoint}/v1/traces`,
     headers: {
-      authorization: apiKey
+      authorization: config.apiKey
     }
   })
 
   const provider = new BasicTracerProvider({
     resource: new Resource({
-      [SemanticResourceAttributes.SERVICE_NAME]: 'github-actions'
+      [SemanticResourceAttributes.SERVICE_NAME]: config.serviceName
     })
   })
   provider.addSpanProcessor(new SimpleSpanProcessor(exporter))

@@ -13,7 +13,7 @@ export const traceJobs = async (config: ActionConfig): Promise<void> => {
     config.githubRepo,
     parseInt(config.githubRunId, 10)
   )
-  await traceRun(jobs, config.apiKey, {endpoint: config.endpoint})
+  await traceRun(jobs, {apiKey: config.apiKey, endpoint: config.endpoint, serviceName: config.serviceName })
 }
 
 export const fetchCompletedJobs = async (
