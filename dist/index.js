@@ -44,7 +44,11 @@ const github = __importStar(__nccwpck_require__(5438));
 const traceRun_1 = __nccwpck_require__(1484);
 const traceJobs = (config) => __awaiter(void 0, void 0, void 0, function* () {
     const jobs = yield (0, exports.fetchCompletedJobs)(config.githubToken, config.githubOwner, config.githubRepo, parseInt(config.githubRunId, 10));
-    yield (0, traceRun_1.traceRun)(jobs, config.apiKey, { endpoint: config.endpoint });
+    yield (0, traceRun_1.traceRun)(jobs, {
+        apiKey: config.apiKey,
+        endpoint: config.endpoint,
+        serviceName: config.serviceName
+    });
 });
 exports.traceJobs = traceJobs;
 const fetchCompletedJobs = (githubToken, githubOwner, githubRepo, githubRunId) => __awaiter(void 0, void 0, void 0, function* () {
@@ -92,7 +96,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DEFAULT_ENDPOINT = void 0;
 const core = __importStar(__nccwpck_require__(2186));
+exports.DEFAULT_ENDPOINT = 'https://in-otel.hyperdx.io';
 const getConfig = () => {
     const githubToken = process.env.GITHUB_TOKEN || core.getInput('github_token');
     if (!githubToken) {
@@ -109,17 +115,21 @@ const getConfig = () => {
     }
     const endpoint = process.env.HYPERDX_ENDPOINT ||
         core.getInput('hyperdx_endpoint') ||
-        'https://in-otel.hyperdx.io';
+        exports.DEFAULT_ENDPOINT;
     const apiKey = process.env.HYPERDX_API_KEY || core.getInput('hyperdx_api_key');
     if (!apiKey) {
         throw new Error('Missing HyperDX credentials');
     }
+    const serviceName = process.env.HYPERDX_SERVICE_NAME ||
+        core.getInput('hyperdx_service_name') ||
+        'github-actions';
     return {
         githubOwner,
         githubRepo,
         githubToken,
         githubRunId,
         endpoint,
+        serviceName,
         apiKey
     };
 };
@@ -210,18 +220,17 @@ const sdk_trace_base_1 = __nccwpck_require__(9253);
 const resources_1 = __nccwpck_require__(3871);
 const semantic_conventions_1 = __nccwpck_require__(7275);
 const api_1 = __nccwpck_require__(5163);
-const DEFAULT_ENDPOINT = 'https://in-otel.hyperdx.io';
-const traceRun = (jobs, apiKey, opts) => __awaiter(void 0, void 0, void 0, function* () {
-    const endpoint = (opts === null || opts === void 0 ? void 0 : opts.endpoint) || DEFAULT_ENDPOINT;
+const traceRun = (jobs, config) => __awaiter(void 0, void 0, void 0, function* () {
+    const endpoint = config.endpoint;
     const exporter = new exporter_trace_otlp_http_1.OTLPTraceExporter({
         url: `${endpoint}/v1/traces`,
         headers: {
-            authorization: apiKey
+            authorization: config.apiKey
         }
     });
     const provider = new sdk_trace_base_1.BasicTracerProvider({
         resource: new resources_1.Resource({
-            [semantic_conventions_1.SemanticResourceAttributes.SERVICE_NAME]: 'github-actions'
+            [semantic_conventions_1.SemanticResourceAttributes.SERVICE_NAME]: config.serviceName
         })
     });
     provider.addSpanProcessor(new sdk_trace_base_1.SimpleSpanProcessor(exporter));

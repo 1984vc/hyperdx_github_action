@@ -2,30 +2,23 @@ import dotenv from 'dotenv'
 import {readFile} from 'fs/promises'
 import {join} from 'path'
 
-import {OTLPTraceExporter} from '@opentelemetry/exporter-trace-otlp-http'
-import {
-  BasicTracerProvider,
-  ConsoleSpanExporter,
-  SimpleSpanProcessor
-} from '@opentelemetry/sdk-trace-base'
-import {Resource} from '@opentelemetry/resources'
-import {SemanticResourceAttributes} from '@opentelemetry/semantic-conventions'
-import {trace, context} from '@opentelemetry/api'
-
 import {it} from '@jest/globals'
 
-import {traceRun} from '../src/traceRun'
+import {traceRun} from '../traceRun'
 import {skipUnlessE2E} from './helpers/skipUnlessE2E'
-import {GithubActionRun} from '../src/action'
+import {GithubActionRun} from '../action'
+import {DEFAULT_ENDPOINT} from '../getConfig'
 
 dotenv.config()
 
 skipUnlessE2E()
 
 // Make the fixture timestamps relative to the current time
-function fixTimestamps(run: GithubActionRun): GithubActionRun {
+function fixTimestamps(runToFix: GithubActionRun): GithubActionRun {
+  // Clone run so we don't mutate the original
+  const run = JSON.parse(JSON.stringify(runToFix)) as GithubActionRun
   const currentTime = new Date().getTime()
-  run.jobs.forEach(job => {
+  for (const job of run.jobs) {
     const jobEnded = job.completed_at
       ? new Date(Date.parse(job.completed_at)).getTime()
       : currentTime
@@ -36,7 +29,7 @@ function fixTimestamps(run: GithubActionRun): GithubActionRun {
         Date.parse(job.completed_at) + offset
       ).toISOString()
     if (job.steps) {
-      job.steps.forEach(step => {
+      for (const step of job.steps) {
         if (step.started_at)
           step.started_at = new Date(
             Date.parse(step.started_at) + offset
@@ -45,10 +38,22 @@ function fixTimestamps(run: GithubActionRun): GithubActionRun {
           step.completed_at = new Date(
             Date.parse(step.completed_at) + offset
           ).toISOString()
-      })
+      }
     }
-  })
+  }
   return run
 }
 
-it('Send job data to OTLP as a trace', async () => {})
+// Lets us send a real trace to the Hypertrace backend
+it('Send job data to OTLP as a trace', async () => {
+  const runJson = fixTimestamps(
+    JSON.parse(
+      await readFile(join(__dirname, 'fixtures', 'jobsList.json'), 'utf-8')
+    ) as GithubActionRun
+  )
+  await traceRun(runJson.jobs, {
+    endpoint: DEFAULT_ENDPOINT,
+    apiKey: process.env.HYPERTRACE_API_KEY || '',
+    serviceName: 'github-actions-e2e-test'
+  })
+})

@@ -14,7 +14,6 @@ type TraceConfig = {
   apiKey: string
 }
 
-
 export const traceRun = async (
   jobs: GithubActionRun['jobs'],
   config: TraceConfig
