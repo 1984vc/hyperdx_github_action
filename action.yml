@@ -8,6 +8,9 @@ inputs:
   hyperdx_endpoint:
     description: 'Endpoint to your HyperDX server if it is self hosted'
     required: false
+  hyperdx_service_name:
+    description: 'Name of this service for the trace. Defaults to `github-actions`'
+    required: false
   github_token: 
     description: 'github token, pass in from secrets.GITHUB_TOKEN'
     required: false
