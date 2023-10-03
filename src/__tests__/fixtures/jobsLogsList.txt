@@ -1,0 +1,125 @@
+2023-09-29T20:43:55.9070986Z Requested labels: ubuntu-latest
+2023-09-29T20:43:55.9071280Z Job defined at: 1984vc/hyperdx_github_action/.github/workflows/test.yml@refs/heads/main
+2023-09-29T20:43:55.9071385Z Waiting for a runner to pick up this job...
+2023-09-29T20:43:56.5154436Z Job is waiting for a hosted runner to come online.
+2023-09-29T20:43:58.6901254Z Job is about to start running on the hosted runner: GitHub Actions 3 (hosted)
+2023-09-29T20:44:00.9371714Z Current runner version: '2.309.0'
+2023-09-29T20:44:00.9399032Z ##[group]Operating System
+2023-09-29T20:44:00.9399651Z Ubuntu
+2023-09-29T20:44:00.9399985Z 22.04.3
+2023-09-29T20:44:00.9400431Z LTS
+2023-09-29T20:44:00.9400776Z ##[endgroup]
+2023-09-29T20:44:00.9401149Z ##[group]Runner Image
+2023-09-29T20:44:00.9401551Z Image: ubuntu-22.04
+2023-09-29T20:44:00.9401954Z Version: 20230924.1.0
+2023-09-29T20:44:00.9402641Z Included Software: https://github.com/actions/runner-images/blob/ubuntu22/20230924.1/images/linux/Ubuntu2204-Readme.md
+2023-09-29T20:44:00.9403399Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20230924.1
+2023-09-29T20:44:00.9403926Z ##[endgroup]
+2023-09-29T20:44:00.9404279Z ##[group]Runner Image Provisioner
+2023-09-29T20:44:00.9404786Z 2.0.310.1
+2023-09-29T20:44:00.9405144Z ##[endgroup]
+2023-09-29T20:44:00.9406250Z ##[group]GITHUB_TOKEN Permissions
+2023-09-29T20:44:00.9408161Z Actions: write
+2023-09-29T20:44:00.9408682Z Checks: write
+2023-09-29T20:44:00.9409467Z Contents: write
+2023-09-29T20:44:00.9410041Z Deployments: write
+2023-09-29T20:44:00.9410392Z Discussions: write
+2023-09-29T20:44:00.9410768Z Issues: write
+2023-09-29T20:44:00.9411144Z Metadata: read
+2023-09-29T20:44:00.9411472Z Packages: write
+2023-09-29T20:44:00.9411901Z Pages: write
+2023-09-29T20:44:00.9412281Z PullRequests: write
+2023-09-29T20:44:00.9412700Z RepositoryProjects: write
+2023-09-29T20:44:00.9413096Z SecurityEvents: write
+2023-09-29T20:44:00.9413483Z Statuses: write
+2023-09-29T20:44:00.9413910Z ##[endgroup]
+2023-09-29T20:44:00.9417643Z Secret source: Actions
+2023-09-29T20:44:00.9418186Z Prepare workflow directory
+2023-09-29T20:44:01.0171230Z Prepare all required actions
+2023-09-29T20:44:01.0364597Z Getting action download info
+2023-09-29T20:44:01.2848395Z Download action repository 'actions/checkout@v4' (SHA:8ade135a41bc03ea155e62e844d188df1ea18608)
+2023-09-29T20:44:01.7782076Z Complete job name: inception
+2023-09-29T20:44:01.8759982Z ##[group]Run actions/checkout@v4
+2023-09-29T20:44:01.8760394Z with:
+2023-09-29T20:44:01.8760771Z   repository: 1984vc/hyperdx_github_action
+2023-09-29T20:44:01.8761397Z   token: ***
+2023-09-29T20:44:01.8761710Z   ssh-strict: true
+2023-09-29T20:44:01.8762038Z   persist-credentials: true
+2023-09-29T20:44:01.8762366Z   clean: true
+2023-09-29T20:44:01.8762719Z   sparse-checkout-cone-mode: true
+2023-09-29T20:44:01.8763058Z   fetch-depth: 1
+2023-09-29T20:44:01.8763358Z   fetch-tags: false
+2023-09-29T20:44:01.8763675Z   show-progress: true
+2023-09-29T20:44:01.8763979Z   lfs: false
+2023-09-29T20:44:01.8764253Z   submodules: false
+2023-09-29T20:44:01.8764584Z   set-safe-directory: true
+2023-09-29T20:44:01.8764904Z ##[endgroup]
+2023-09-29T20:44:02.1389385Z Syncing repository: 1984vc/hyperdx_github_action
+2023-09-29T20:44:02.1392001Z ##[group]Getting Git version info
+2023-09-29T20:44:02.1392868Z Working directory is '/home/runner/work/hyperdx_github_action/hyperdx_github_action'
+2023-09-29T20:44:02.1394705Z [command]/usr/bin/git version
+2023-09-29T20:44:02.1517301Z git version 2.42.0
+2023-09-29T20:44:02.1549849Z ##[endgroup]
+2023-09-29T20:44:02.1579872Z Temporarily overriding HOME='/home/runner/work/_temp/bf41ee1f-6dcb-46c4-a50b-1bf9f6a4da1d' before making global git config changes
+2023-09-29T20:44:02.1581128Z Adding repository directory to the temporary git global config as a safe directory
+2023-09-29T20:44:02.1643243Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hyperdx_github_action/hyperdx_github_action
+2023-09-29T20:44:02.1644711Z Deleting the contents of '/home/runner/work/hyperdx_github_action/hyperdx_github_action'
+2023-09-29T20:44:02.1647442Z ##[group]Initializing the repository
+2023-09-29T20:44:02.1651120Z [command]/usr/bin/git init /home/runner/work/hyperdx_github_action/hyperdx_github_action
+2023-09-29T20:44:02.1716807Z hint: Using 'master' as the name for the initial branch. This default branch name
+2023-09-29T20:44:02.1717666Z hint: is subject to change. To configure the initial branch name to use in all
+2023-09-29T20:44:02.1718420Z hint: of your new repositories, which will suppress this warning, call:
+2023-09-29T20:44:02.1719451Z hint: 
+2023-09-29T20:44:02.1720364Z hint: 	git config --global init.defaultBranch <name>
+2023-09-29T20:44:02.1720870Z hint: 
+2023-09-29T20:44:02.1721519Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2023-09-29T20:44:02.1722319Z hint: 'development'. The just-created branch can be renamed via this command:
+2023-09-29T20:44:02.1722855Z hint: 
+2023-09-29T20:44:02.1723336Z hint: 	git branch -m <name>
+2023-09-29T20:44:02.1738487Z Initialized empty Git repository in /home/runner/work/hyperdx_github_action/hyperdx_github_action/.git/
+2023-09-29T20:44:02.1749355Z [command]/usr/bin/git remote add origin https://github.com/1984vc/hyperdx_github_action
+2023-09-29T20:44:02.1792356Z ##[endgroup]
+2023-09-29T20:44:02.1793130Z ##[group]Disabling automatic garbage collection
+2023-09-29T20:44:02.1795223Z [command]/usr/bin/git config --local gc.auto 0
+2023-09-29T20:44:02.1825891Z ##[endgroup]
+2023-09-29T20:44:02.1826610Z ##[group]Setting up auth
+2023-09-29T20:44:02.1831702Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2023-09-29T20:44:02.1861720Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2023-09-29T20:44:02.2211456Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2023-09-29T20:44:02.2240564Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2023-09-29T20:44:02.2484801Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2023-09-29T20:44:02.2537446Z ##[endgroup]
+2023-09-29T20:44:02.2540688Z ##[group]Fetching the repository
+2023-09-29T20:44:02.2553946Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +1a2f81483cf9d704bdac2a99f95974ebd1cc7aab:refs/remotes/origin/main
+2023-09-29T20:44:02.7787255Z From https://github.com/1984vc/hyperdx_github_action
+2023-09-29T20:44:02.7788687Z  * [new ref]         1a2f81483cf9d704bdac2a99f95974ebd1cc7aab -> origin/main
+2023-09-29T20:44:02.7834513Z ##[endgroup]
+2023-09-29T20:44:02.7835278Z ##[group]Determining the checkout info
+2023-09-29T20:44:02.7836142Z ##[endgroup]
+2023-09-29T20:44:02.7836763Z ##[group]Checking out the ref
+2023-09-29T20:44:02.7841960Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2023-09-29T20:44:02.8056801Z Switched to a new branch 'main'
+2023-09-29T20:44:02.8077074Z branch 'main' set up to track 'origin/main'.
+2023-09-29T20:44:02.8079740Z ##[endgroup]
+2023-09-29T20:44:02.8108872Z [command]/usr/bin/git log -1 --format='%H'
+2023-09-29T20:44:02.8136596Z '1a2f81483cf9d704bdac2a99f95974ebd1cc7aab'
+2023-09-29T20:44:02.8642058Z ##[warning]Unexpected input(s) 'hyperdx_api_key', valid inputs are ['hyperdx_key', 'hyperdx_endpoint', 'hyperdx_service_name', 'github_token']
+2023-09-29T20:44:02.8655716Z ##[group]Run ./
+2023-09-29T20:44:02.8655970Z with:
+2023-09-29T20:44:02.8656297Z   hyperdx_service_name: github-actions: hyperdx-github-action-tracing
+2023-09-29T20:44:02.8656894Z   hyperdx_api_key: ***
+2023-09-29T20:44:02.8657313Z   github_token: ***
+2023-09-29T20:44:02.8657533Z ##[endgroup]
+2023-09-29T20:44:03.6721236Z Post job cleanup.
+2023-09-29T20:44:03.7644312Z [command]/usr/bin/git version
+2023-09-29T20:44:03.7696095Z git version 2.42.0
+2023-09-29T20:44:03.7746608Z Temporarily overriding HOME='/home/runner/work/_temp/f6015cb0-808a-4ea7-9f04-18d4dab5fa56' before making global git config changes
+2023-09-29T20:44:03.7747197Z Adding repository directory to the temporary git global config as a safe directory
+2023-09-29T20:44:03.7754609Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hyperdx_github_action/hyperdx_github_action
+2023-09-29T20:44:03.7806386Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2023-09-29T20:44:03.7853162Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2023-09-29T20:44:03.8119671Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2023-09-29T20:44:03.8133841Z http.https://github.com/.extraheader
+2023-09-29T20:44:03.8150233Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2023-09-29T20:44:03.8187344Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2023-09-29T20:44:03.8770433Z Cleaning up orphan processes
