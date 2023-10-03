@@ -2,7 +2,7 @@ name: 'Hyperdx Action Tracer'
 description: 'Send Github Actions jobs to Hyperdx for tracing'
 author: 'Mark Percival <mdp@1984.vc>'
 inputs:
-  hyperdx_key: 
+  hyperdx_api_key: 
     description: 'Your HyperDX API key'
     required: true
   hyperdx_endpoint:

@@ -19,6 +19,7 @@ jobs:
   inception: # use the action to upload the latest logs
     runs-on: ubuntu-latest
     needs: build-and-test
+    if: always()
     steps:
       - uses: actions/checkout@v4
       - uses: ./

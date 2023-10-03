@@ -8,6 +8,7 @@ import {traceRun} from '../traceRun'
 import {skipUnlessE2E} from './helpers/skipUnlessE2E'
 import {GithubActionRun} from '../action'
 import {DEFAULT_ENDPOINT} from '../getConfig'
+import {Log, logRun} from '../logRun'
 
 dotenv.config()
 
@@ -51,9 +52,42 @@ it('Send job data to OTLP as a trace', async () => {
       await readFile(join(__dirname, 'fixtures', 'jobsList.json'), 'utf-8')
     ) as GithubActionRun
   )
-  await traceRun(runJson.jobs, {
-    endpoint: DEFAULT_ENDPOINT,
-    apiKey: process.env.HYPERTRACE_API_KEY || '',
-    serviceName: 'github-actions-e2e-test'
-  })
+  const jobsLogsJson = JSON.parse(
+    await readFile(join(__dirname, 'fixtures', 'parsedLogsList.json'), 'utf-8')
+  ) as {[key: string]: Log[]}
+  for (const job of runJson.jobs) {
+    const traceId = await traceRun(job, {
+      endpoint: DEFAULT_ENDPOINT,
+      apiKey: process.env.HYPERDX_API_KEY || '',
+      serviceName: 'github-actions-e2e-test'
+    })
+    await logRun(jobsLogsJson[job.id] as Log[], traceId || '', {
+      apiKey: process.env.HYPERDX_API_KEY || '',
+      serviceName: 'github-actions-e2e-test'
+    })
+  }
 })
+
+// Lets us send a real trace to the Hypertrace backend
+// it('Send log data to OTLP after a trace', async () => {
+//   const runJson = fixTimestamps(
+//     JSON.parse(
+//       await readFile(join(__dirname, 'fixtures', 'jobsList.json'), 'utf-8')
+//     ) as GithubActionRun
+//   )
+//   const traceId = await traceRun(runJson.jobs, {
+//     endpoint: DEFAULT_ENDPOINT,
+//     apiKey: process.env.HYPERTRACE_API_KEY || '',
+//     serviceName: 'github-actions-e2e-test'
+//   })
+
+//   const logs: Log[] = parseLog(
+//     await readFile(join(__dirname, 'fixtures', 'logs.txt'), 'utf-8')
+//   )
+//   await logRun(
+//     process.env.HYPERDX_API_KEY || '',
+//     'github-actions-e2e-test',
+//     traceId || '',
+//     logs
+//   )
+// })

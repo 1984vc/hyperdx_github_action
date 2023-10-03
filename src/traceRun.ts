@@ -7,22 +7,26 @@ import {Resource} from '@opentelemetry/resources'
 import {SemanticResourceAttributes} from '@opentelemetry/semantic-conventions'
 import {trace, context} from '@opentelemetry/api'
 import {GithubActionRun} from './action'
+import {DEFAULT_ENDPOINT} from './getConfig'
 
-type TraceConfig = {
-  endpoint: string
+export type TraceConfig = {
+  endpoint?: string
   serviceName: string
   apiKey: string
 }
 
 export const traceRun = async (
-  jobs: GithubActionRun['jobs'],
+  job: GithubActionRun['jobs'][0],
   config: TraceConfig
-): Promise<void> => {
-  const endpoint = config.endpoint
+): Promise<string | null> => {
+  if (!config.apiKey) {
+    throw new Error('No API key provided')
+  }
+  const endpoint = config.endpoint || DEFAULT_ENDPOINT
   const exporter = new OTLPTraceExporter({
     url: `${endpoint}/v1/traces`,
     headers: {
-      authorization: config.apiKey
+      authorization: `${config.apiKey}`
     }
   })
 
@@ -35,31 +39,31 @@ export const traceRun = async (
   provider.register()
   const tracer = trace.getTracer('runJobs')
 
-  for (const job of jobs) {
-    const parentSpan = tracer.startSpan('Run', {
-      startTime: new Date(Date.parse(job.started_at))
-    })
-    parentSpan.setAttribute('runId', job.run_id)
-    if (job.steps) {
-      for (const step of job.steps) {
-        const ctx = trace.setSpan(context.active(), parentSpan)
-        const startTime = step.started_at
-          ? new Date(Date.parse(step.started_at))
-          : undefined
-        const endTime = step.completed_at
-          ? new Date(Date.parse(step.completed_at))
-          : undefined
-        const stepSpan = tracer.startSpan(step.name, {startTime}, ctx)
-        stepSpan.setAttribute('status', step.status)
-        if (step.conclusion)
-          stepSpan.setAttribute('conclusion', step.conclusion)
-        stepSpan.end(endTime)
-      }
+  const parentSpan = tracer.startSpan('Run', {
+    startTime: new Date(Date.parse(job.started_at))
+  })
+  parentSpan.setAttribute('runId', job.run_id)
+  if (job.steps) {
+    for (const step of job.steps) {
+      console.log('job.steps')
+      const ctx = trace.setSpan(context.active(), parentSpan)
+      const startTime = step.started_at
+        ? new Date(Date.parse(step.started_at))
+        : undefined
+      const endTime = step.completed_at
+        ? new Date(Date.parse(step.completed_at))
+        : undefined
+      const stepSpan = tracer.startSpan(step.name, {startTime}, ctx)
+      stepSpan.setAttribute('status', step.status)
+      if (step.conclusion) stepSpan.setAttribute('conclusion', step.conclusion)
+      stepSpan.end(endTime)
     }
     const jobEndTime = job.completed_at
       ? new Date(Date.parse(job.completed_at))
       : undefined
     parentSpan.end(jobEndTime)
   }
-  return await exporter.shutdown()
+  await exporter.shutdown()
+  console.log('shutdown')
+  return parentSpan.spanContext().traceId
 }
