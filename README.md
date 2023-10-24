@@ -1,6 +1,13 @@
 # Track GitHub Actions in HyperDX (Opentelemetry)
 [![Build Status](https://github.com/1984vc/hyperdx_github_action/actions/workflows/test.yml/badge.svg)](https://github.com/1984vc/hyperdx_github_action/actions/workflows/test.yml)
 
+This action forwards traces and logs from Github Actions to HyperDX. To use it you'll need the following:
+
+- A HyperDX API Key
+- A HyperDX Endpoint if you're not using the hosted version
+
+Simple add it as a job that depends on the job you're collecting logs and metrics for. Make sure to include `if: always()` to ensure that it runs, even on failure of prior jobs.
+ 
 Example: 
 
 ```yaml
@@ -17,6 +24,7 @@ jobs:
   inception:
     runs-on: ubuntu-latest
     needs: build-and-test # wait until build-and-test in done
+    if: always()
     steps:
       - uses: actions/checkout@v3
       - uses: mdp/hyperdx_github_action
