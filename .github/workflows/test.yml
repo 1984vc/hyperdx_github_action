@@ -8,7 +8,7 @@ on: # rebuild any PRs and main branch changes
 
 jobs:
   build-and-test: # make sure build/ci work properly
-    runs-on: ubuntu-latest
+    runs-on: warp-ubuntu-latest-arm64-4x
     steps:
       - uses: actions/checkout@v4
       - run: |
@@ -17,7 +17,7 @@ jobs:
           yarn all
       - run: yarn test
   inception: # use the action to upload the latest logs
-    runs-on: ubuntu-latest
+    runs-on: warp-ubuntu-latest-arm64-4x
     needs: build-and-test
     if: always()
     steps:
